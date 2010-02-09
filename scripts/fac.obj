@@ -1,0 +1,15 @@
+// This script will SEG FAULT if a value of 3716 or higher is entered
+// to commit the factorial upon...
+
+function fac(n, t)
+{
+if (n <= 0)
+t;
+else
+fac(n - 1, n * t);
+}
+
+function main()
+{
+echoln(fac(getInteger(), 1));
+}

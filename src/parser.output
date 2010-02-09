@@ -1,0 +1,4016 @@
+Terminals unused in grammar
+
+   LAMBDA
+   BOOLEAN_OPENER
+   LIST_ELEMENT_OF
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: program definition
+    2        | definition
+
+    3 definition: function_definition
+    4           | DEFINE ID AS form
+
+    5 function_definition: FUNCTION ID OPEN_PAREN CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+    6                    | FUNCTION ID OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+
+    7 form_list: form_list form
+    8          | form
+
+    9 form: statement
+   10     | OPEN_BRACE form_list CLOSE_BRACE
+   11     | expression SEMICOLON
+
+   12 statement: LET assignment_form FOR form
+   13          | IF OPEN_PAREN expression CLOSE_PAREN form ELSE form
+   14          | COND OPEN_BRACE condition_list CLOSE_BRACE
+   15          | ERROR OPEN_PAREN expression CLOSE_PAREN form
+   16          | REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+   17 expression_list: expression_list COMMA expression
+   18                | expression
+
+   19 expression: ID OPEN_PAREN CLOSE_PAREN
+   20           | ID OPEN_BRACE form_list CLOSE_BRACE
+   21           | ID OPEN_PAREN expression_list CLOSE_PAREN
+   22           | LIST OPEN_PAREN CLOSE_PAREN
+   23           | LIST OPEN_BRACE form_list CLOSE_BRACE
+   24           | LIST OPEN_PAREN expression_list CLOSE_PAREN
+   25           | RECUR OPEN_PAREN expression_list CLOSE_PAREN
+   26           | RECUR OPEN_BRACE form_list CLOSE_BRACE
+   27           | ID OPEN_BRACKET expression CLOSE_BRACKET
+   28           | expression ARITH_ADD expression
+   29           | expression ARITH_SUB expression
+   30           | expression ARITH_MUL expression
+   31           | expression ARITH_DIV expression
+   32           | expression ARITH_MOD expression
+   33           | BOOLEAN_NOT expression
+   34           | expression BOOLEAN_AND expression
+   35           | expression BOOLEAN_OR expression
+   36           | expression BOOLEAN_XOR expression
+   37           | expression BOOLEAN_IMP expression
+   38           | expression BOOLEAN_DIMP expression
+   39           | expression BOOLEAN_EQ expression
+   40           | expression BOOLEAN_NEQ expression
+   41           | expression BOOLEAN_LT expression
+   42           | expression BOOLEAN_GT expression
+   43           | expression BOOLEAN_LTE expression
+   44           | expression BOOLEAN_GTE expression
+   45           | expression BOOLEAN_EQV expression
+   46           | LIST_CAR expression
+   47           | LIST_CDR expression
+   48           | expression LIST_CONS expression
+   49           | expression LIST_APPEND expression
+   50           | expression LIST_UNION expression
+   51           | expression LIST_INTERSECTION expression
+   52           | expression LIST_COMPLEMENT expression
+   53           | expression LIST_BICOMPLEMENT expression
+   54           | expression LIST_MEMBER expression
+   55           | expression LIST_SUBSET expression
+   56           | OPEN_PAREN expression CLOSE_PAREN
+   57           | ID
+   58           | literal
+
+   59 condition_list: condition_list condition
+   60               | condition
+
+   61 condition: CASE OPEN_PAREN expression CLOSE_PAREN form
+   62          | DEFAULT form
+
+   63 assignment_form: OPEN_BRACE assignment_list CLOSE_BRACE
+   64                | assignment_list
+
+   65 assignment_list: assignment_list assignment
+   66                | assignment
+
+   67 assignment: ID ASSIGN form
+
+   68 literal: INTEGER
+   69        | DOUBLE
+   70        | STRING
+   71        | CHARACTER
+   72        | SYMBOL
+   73        | BOOLEAN
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+OPEN_BRACE (258) 5 6 10 14 16 20 23 26 63
+CLOSE_BRACE (259) 5 6 10 14 16 20 23 26 63
+OPEN_PAREN (260) 5 6 13 15 16 19 21 22 24 25 56 61
+CLOSE_PAREN (261) 5 6 13 15 16 19 21 22 24 25 56 61
+OPEN_BRACKET (262) 27
+CLOSE_BRACKET (263) 27
+LET (264) 12
+FOR (265) 12
+LAMBDA (266)
+IF (267) 13
+ELSE (268) 13
+COND (269) 14
+LIST (270) 22 23 24
+DEFAULT (271) 62
+ASSIGN (272) 67
+SEMICOLON (273) 11
+ERROR (274) 15
+BOOLEAN_OPENER (275)
+CASE (276) 61
+FUNCTION (277) 5 6
+COMMA (278) 17
+REC (279) 16
+RECUR (280) 25 26
+ON (281) 16
+DEFINE (282) 4
+AS (283) 4
+BOOLEAN_AND (284) 34
+BOOLEAN_OR (285) 35
+BOOLEAN_XOR (286) 36
+BOOLEAN_NOT (287) 33
+BOOLEAN_IMP (288) 37
+BOOLEAN_DIMP (289) 38
+BOOLEAN_EQ (290) 39
+BOOLEAN_NEQ (291) 40
+BOOLEAN_LT (292) 41
+BOOLEAN_GT (293) 42
+BOOLEAN_LTE (294) 43
+BOOLEAN_GTE (295) 44
+BOOLEAN_EQV (296) 45
+LIST_APPEND (297) 49
+LIST_CONS (298) 48
+LIST_CAR (299) 46
+LIST_CDR (300) 47
+LIST_ELEMENT_OF (301)
+LIST_UNION (302) 50
+LIST_INTERSECTION (303) 51
+LIST_COMPLEMENT (304) 52
+LIST_BICOMPLEMENT (305) 53
+LIST_MEMBER (306) 54
+LIST_SUBSET (307) 55
+ARITH_ADD (308) 28
+ARITH_SUB (309) 29
+ARITH_MUL (310) 30
+ARITH_DIV (311) 31
+ARITH_MOD (312) 32
+INTEGER (313) 68
+DOUBLE (314) 69
+STRING (315) 70
+SYMBOL (316) 72
+BOOLEAN (317) 73
+ID (318) 4 5 6 19 20 21 27 57 67
+CHARACTER (319) 71
+
+
+Nonterminals, with rules where they appear
+
+$accept (65)
+    on left: 0
+program (66)
+    on left: 1 2, on right: 0 1
+definition (67)
+    on left: 3 4, on right: 1 2
+function_definition (68)
+    on left: 5 6, on right: 3
+form_list (69)
+    on left: 7 8, on right: 5 6 7 10 16 20 23 26
+form (70)
+    on left: 9 10 11, on right: 4 7 8 12 13 15 61 62 67
+statement (71)
+    on left: 12 13 14 15 16, on right: 9
+expression_list (72)
+    on left: 17 18, on right: 6 16 17 21 24 25
+expression (73)
+    on left: 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
+    37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57
+    58, on right: 11 13 15 17 18 27 28 29 30 31 32 33 34 35 36 37 38
+    39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 61
+condition_list (74)
+    on left: 59 60, on right: 14 59
+condition (75)
+    on left: 61 62, on right: 59 60
+assignment_form (76)
+    on left: 63 64, on right: 12
+assignment_list (77)
+    on left: 65 66, on right: 63 64 65
+assignment (78)
+    on left: 67, on right: 65 66
+literal (79)
+    on left: 68 69 70 71 72 73, on right: 58
+
+
+state 0
+
+    0 $accept: . program $end
+
+    FUNCTION  shift, and go to state 1
+    DEFINE    shift, and go to state 2
+
+    program              go to state 3
+    definition           go to state 4
+    function_definition  go to state 5
+
+
+state 1
+
+    5 function_definition: FUNCTION . ID OPEN_PAREN CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+    6                    | FUNCTION . ID OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+
+    ID  shift, and go to state 6
+
+
+state 2
+
+    4 definition: DEFINE . ID AS form
+
+    ID  shift, and go to state 7
+
+
+state 3
+
+    0 $accept: program . $end
+    1 program: program . definition
+
+    $end      shift, and go to state 8
+    FUNCTION  shift, and go to state 1
+    DEFINE    shift, and go to state 2
+
+    definition           go to state 9
+    function_definition  go to state 5
+
+
+state 4
+
+    2 program: definition .
+
+    $default  reduce using rule 2 (program)
+
+
+state 5
+
+    3 definition: function_definition .
+
+    $default  reduce using rule 3 (definition)
+
+
+state 6
+
+    5 function_definition: FUNCTION ID . OPEN_PAREN CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+    6                    | FUNCTION ID . OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+
+    OPEN_PAREN  shift, and go to state 10
+
+
+state 7
+
+    4 definition: DEFINE ID . AS form
+
+    AS  shift, and go to state 11
+
+
+state 8
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 9
+
+    1 program: program definition .
+
+    $default  reduce using rule 1 (program)
+
+
+state 10
+
+    5 function_definition: FUNCTION ID OPEN_PAREN . CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+    6                    | FUNCTION ID OPEN_PAREN . expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+
+    OPEN_PAREN   shift, and go to state 12
+    CLOSE_PAREN  shift, and go to state 13
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 26
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 11
+
+    4 definition: DEFINE ID AS . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 35
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 12
+
+   56 expression: OPEN_PAREN . expression CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 38
+    literal     go to state 28
+
+
+state 13
+
+    5 function_definition: FUNCTION ID OPEN_PAREN CLOSE_PAREN . OPEN_BRACE form_list CLOSE_BRACE
+
+    OPEN_BRACE  shift, and go to state 39
+
+
+state 14
+
+   22 expression: LIST . OPEN_PAREN CLOSE_PAREN
+   23           | LIST . OPEN_BRACE form_list CLOSE_BRACE
+   24           | LIST . OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_BRACE  shift, and go to state 40
+    OPEN_PAREN  shift, and go to state 41
+
+
+state 15
+
+   25 expression: RECUR . OPEN_PAREN expression_list CLOSE_PAREN
+   26           | RECUR . OPEN_BRACE form_list CLOSE_BRACE
+
+    OPEN_BRACE  shift, and go to state 42
+    OPEN_PAREN  shift, and go to state 43
+
+
+state 16
+
+   33 expression: BOOLEAN_NOT . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 44
+    literal     go to state 28
+
+
+state 17
+
+   46 expression: LIST_CAR . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 45
+    literal     go to state 28
+
+
+state 18
+
+   47 expression: LIST_CDR . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 46
+    literal     go to state 28
+
+
+state 19
+
+   68 literal: INTEGER .
+
+    $default  reduce using rule 68 (literal)
+
+
+state 20
+
+   69 literal: DOUBLE .
+
+    $default  reduce using rule 69 (literal)
+
+
+state 21
+
+   70 literal: STRING .
+
+    $default  reduce using rule 70 (literal)
+
+
+state 22
+
+   72 literal: SYMBOL .
+
+    $default  reduce using rule 72 (literal)
+
+
+state 23
+
+   73 literal: BOOLEAN .
+
+    $default  reduce using rule 73 (literal)
+
+
+state 24
+
+   19 expression: ID . OPEN_PAREN CLOSE_PAREN
+   20           | ID . OPEN_BRACE form_list CLOSE_BRACE
+   21           | ID . OPEN_PAREN expression_list CLOSE_PAREN
+   27           | ID . OPEN_BRACKET expression CLOSE_BRACKET
+   57           | ID .
+
+    OPEN_BRACE    shift, and go to state 47
+    OPEN_PAREN    shift, and go to state 48
+    OPEN_BRACKET  shift, and go to state 49
+
+    $default  reduce using rule 57 (expression)
+
+
+state 25
+
+   71 literal: CHARACTER .
+
+    $default  reduce using rule 71 (literal)
+
+
+state 26
+
+    6 function_definition: FUNCTION ID OPEN_PAREN expression_list . CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE
+   17 expression_list: expression_list . COMMA expression
+
+    CLOSE_PAREN  shift, and go to state 50
+    COMMA        shift, and go to state 51
+
+
+state 27
+
+   18 expression_list: expression .
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 18 (expression_list)
+
+
+state 28
+
+   58 expression: literal .
+
+    $default  reduce using rule 58 (expression)
+
+
+state 29
+
+   10 form: OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 77
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 30
+
+   12 statement: LET . assignment_form FOR form
+
+    OPEN_BRACE  shift, and go to state 79
+    ID          shift, and go to state 80
+
+    assignment_form  go to state 81
+    assignment_list  go to state 82
+    assignment       go to state 83
+
+
+state 31
+
+   13 statement: IF . OPEN_PAREN expression CLOSE_PAREN form ELSE form
+
+    OPEN_PAREN  shift, and go to state 84
+
+
+state 32
+
+   14 statement: COND . OPEN_BRACE condition_list CLOSE_BRACE
+
+    OPEN_BRACE  shift, and go to state 85
+
+
+state 33
+
+   15 statement: ERROR . OPEN_PAREN expression CLOSE_PAREN form
+
+    OPEN_PAREN  shift, and go to state 86
+
+
+state 34
+
+   16 statement: REC . OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 87
+
+
+state 35
+
+    4 definition: DEFINE ID AS form .
+
+    $default  reduce using rule 4 (definition)
+
+
+state 36
+
+    9 form: statement .
+
+    $default  reduce using rule 9 (form)
+
+
+state 37
+
+   11 form: expression . SEMICOLON
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    SEMICOLON          shift, and go to state 88
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 38
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+   56           | OPEN_PAREN expression . CLOSE_PAREN
+
+    CLOSE_PAREN        shift, and go to state 89
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 39
+
+    5 function_definition: FUNCTION ID OPEN_PAREN CLOSE_PAREN OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 90
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 40
+
+   23 expression: LIST OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 91
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 41
+
+   22 expression: LIST OPEN_PAREN . CLOSE_PAREN
+   24           | LIST OPEN_PAREN . expression_list CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    CLOSE_PAREN  shift, and go to state 92
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 93
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 42
+
+   26 expression: RECUR OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 94
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 43
+
+   25 expression: RECUR OPEN_PAREN . expression_list CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 95
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 44
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   33           | BOOLEAN_NOT expression .
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 33 (expression)
+
+
+state 45
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   46           | LIST_CAR expression .
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 46 (expression)
+
+
+state 46
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   47           | LIST_CDR expression .
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 47 (expression)
+
+
+state 47
+
+   20 expression: ID OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 96
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 48
+
+   19 expression: ID OPEN_PAREN . CLOSE_PAREN
+   21           | ID OPEN_PAREN . expression_list CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    CLOSE_PAREN  shift, and go to state 97
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 98
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 49
+
+   27 expression: ID OPEN_BRACKET . expression CLOSE_BRACKET
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 99
+    literal     go to state 28
+
+
+state 50
+
+    6 function_definition: FUNCTION ID OPEN_PAREN expression_list CLOSE_PAREN . OPEN_BRACE form_list CLOSE_BRACE
+
+    OPEN_BRACE  shift, and go to state 100
+
+
+state 51
+
+   17 expression_list: expression_list COMMA . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 101
+    literal     go to state 28
+
+
+state 52
+
+   34 expression: expression BOOLEAN_AND . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 102
+    literal     go to state 28
+
+
+state 53
+
+   35 expression: expression BOOLEAN_OR . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 103
+    literal     go to state 28
+
+
+state 54
+
+   36 expression: expression BOOLEAN_XOR . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 104
+    literal     go to state 28
+
+
+state 55
+
+   37 expression: expression BOOLEAN_IMP . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 105
+    literal     go to state 28
+
+
+state 56
+
+   38 expression: expression BOOLEAN_DIMP . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 106
+    literal     go to state 28
+
+
+state 57
+
+   39 expression: expression BOOLEAN_EQ . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 107
+    literal     go to state 28
+
+
+state 58
+
+   40 expression: expression BOOLEAN_NEQ . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 108
+    literal     go to state 28
+
+
+state 59
+
+   41 expression: expression BOOLEAN_LT . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 109
+    literal     go to state 28
+
+
+state 60
+
+   42 expression: expression BOOLEAN_GT . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 110
+    literal     go to state 28
+
+
+state 61
+
+   43 expression: expression BOOLEAN_LTE . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 111
+    literal     go to state 28
+
+
+state 62
+
+   44 expression: expression BOOLEAN_GTE . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 112
+    literal     go to state 28
+
+
+state 63
+
+   45 expression: expression BOOLEAN_EQV . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 113
+    literal     go to state 28
+
+
+state 64
+
+   49 expression: expression LIST_APPEND . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 114
+    literal     go to state 28
+
+
+state 65
+
+   48 expression: expression LIST_CONS . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 115
+    literal     go to state 28
+
+
+state 66
+
+   50 expression: expression LIST_UNION . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 116
+    literal     go to state 28
+
+
+state 67
+
+   51 expression: expression LIST_INTERSECTION . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 117
+    literal     go to state 28
+
+
+state 68
+
+   52 expression: expression LIST_COMPLEMENT . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 118
+    literal     go to state 28
+
+
+state 69
+
+   53 expression: expression LIST_BICOMPLEMENT . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 119
+    literal     go to state 28
+
+
+state 70
+
+   54 expression: expression LIST_MEMBER . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 120
+    literal     go to state 28
+
+
+state 71
+
+   55 expression: expression LIST_SUBSET . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 121
+    literal     go to state 28
+
+
+state 72
+
+   28 expression: expression ARITH_ADD . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 122
+    literal     go to state 28
+
+
+state 73
+
+   29 expression: expression ARITH_SUB . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 123
+    literal     go to state 28
+
+
+state 74
+
+   30 expression: expression ARITH_MUL . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 124
+    literal     go to state 28
+
+
+state 75
+
+   31 expression: expression ARITH_DIV . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 125
+    literal     go to state 28
+
+
+state 76
+
+   32 expression: expression ARITH_MOD . expression
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 126
+    literal     go to state 28
+
+
+state 77
+
+    7 form_list: form_list . form
+   10 form: OPEN_BRACE form_list . CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 127
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 78
+
+    8 form_list: form .
+
+    $default  reduce using rule 8 (form_list)
+
+
+state 79
+
+   63 assignment_form: OPEN_BRACE . assignment_list CLOSE_BRACE
+
+    ID  shift, and go to state 80
+
+    assignment_list  go to state 129
+    assignment       go to state 83
+
+
+state 80
+
+   67 assignment: ID . ASSIGN form
+
+    ASSIGN  shift, and go to state 130
+
+
+state 81
+
+   12 statement: LET assignment_form . FOR form
+
+    FOR  shift, and go to state 131
+
+
+state 82
+
+   64 assignment_form: assignment_list .
+   65 assignment_list: assignment_list . assignment
+
+    ID  shift, and go to state 80
+
+    $default  reduce using rule 64 (assignment_form)
+
+    assignment  go to state 132
+
+
+state 83
+
+   66 assignment_list: assignment .
+
+    $default  reduce using rule 66 (assignment_list)
+
+
+state 84
+
+   13 statement: IF OPEN_PAREN . expression CLOSE_PAREN form ELSE form
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 133
+    literal     go to state 28
+
+
+state 85
+
+   14 statement: COND OPEN_BRACE . condition_list CLOSE_BRACE
+
+    DEFAULT  shift, and go to state 134
+    CASE     shift, and go to state 135
+
+    condition_list  go to state 136
+    condition       go to state 137
+
+
+state 86
+
+   15 statement: ERROR OPEN_PAREN . expression CLOSE_PAREN form
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 138
+    literal     go to state 28
+
+
+state 87
+
+   16 statement: REC OPEN_PAREN . expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 139
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 88
+
+   11 form: expression SEMICOLON .
+
+    $default  reduce using rule 11 (form)
+
+
+state 89
+
+   56 expression: OPEN_PAREN expression CLOSE_PAREN .
+
+    $default  reduce using rule 56 (expression)
+
+
+state 90
+
+    5 function_definition: FUNCTION ID OPEN_PAREN CLOSE_PAREN OPEN_BRACE form_list . CLOSE_BRACE
+    7 form_list: form_list . form
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 140
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 91
+
+    7 form_list: form_list . form
+   23 expression: LIST OPEN_BRACE form_list . CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 141
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 92
+
+   22 expression: LIST OPEN_PAREN CLOSE_PAREN .
+
+    $default  reduce using rule 22 (expression)
+
+
+state 93
+
+   17 expression_list: expression_list . COMMA expression
+   24 expression: LIST OPEN_PAREN expression_list . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 142
+    COMMA        shift, and go to state 51
+
+
+state 94
+
+    7 form_list: form_list . form
+   26 expression: RECUR OPEN_BRACE form_list . CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 143
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 95
+
+   17 expression_list: expression_list . COMMA expression
+   25 expression: RECUR OPEN_PAREN expression_list . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 144
+    COMMA        shift, and go to state 51
+
+
+state 96
+
+    7 form_list: form_list . form
+   20 expression: ID OPEN_BRACE form_list . CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 145
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 97
+
+   19 expression: ID OPEN_PAREN CLOSE_PAREN .
+
+    $default  reduce using rule 19 (expression)
+
+
+state 98
+
+   17 expression_list: expression_list . COMMA expression
+   21 expression: ID OPEN_PAREN expression_list . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 146
+    COMMA        shift, and go to state 51
+
+
+state 99
+
+   27 expression: ID OPEN_BRACKET expression . CLOSE_BRACKET
+   28           | expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    CLOSE_BRACKET      shift, and go to state 147
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 100
+
+    6 function_definition: FUNCTION ID OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE . form_list CLOSE_BRACE
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 148
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 101
+
+   17 expression_list: expression_list COMMA expression .
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 17 (expression_list)
+
+
+state 102
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   34           | expression BOOLEAN_AND expression .
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 34 (expression)
+
+
+state 103
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   35           | expression BOOLEAN_OR expression .
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 35 (expression)
+
+
+state 104
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   36           | expression BOOLEAN_XOR expression .
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 36 (expression)
+
+
+state 105
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   37           | expression BOOLEAN_IMP expression .
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 37 (expression)
+
+
+state 106
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   38           | expression BOOLEAN_DIMP expression .
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 38 (expression)
+
+
+state 107
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   39           | expression BOOLEAN_EQ expression .
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 39 (expression)
+
+
+state 108
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   40           | expression BOOLEAN_NEQ expression .
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 40 (expression)
+
+
+state 109
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   41           | expression BOOLEAN_LT expression .
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 41 (expression)
+
+
+state 110
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   42           | expression BOOLEAN_GT expression .
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 42 (expression)
+
+
+state 111
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   43           | expression BOOLEAN_LTE expression .
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 43 (expression)
+
+
+state 112
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   44           | expression BOOLEAN_GTE expression .
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 44 (expression)
+
+
+state 113
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   45           | expression BOOLEAN_EQV expression .
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 45 (expression)
+
+
+state 114
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   49           | expression LIST_APPEND expression .
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 49 (expression)
+
+
+state 115
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   48           | expression LIST_CONS expression .
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 48 (expression)
+
+
+state 116
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   50           | expression LIST_UNION expression .
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 50 (expression)
+
+
+state 117
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   51           | expression LIST_INTERSECTION expression .
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 51 (expression)
+
+
+state 118
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   52           | expression LIST_COMPLEMENT expression .
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 52 (expression)
+
+
+state 119
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   53           | expression LIST_BICOMPLEMENT expression .
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 53 (expression)
+
+
+state 120
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   54           | expression LIST_MEMBER expression .
+   55           | expression . LIST_SUBSET expression
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 54 (expression)
+
+
+state 121
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+   55           | expression LIST_SUBSET expression .
+
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+    $default  reduce using rule 55 (expression)
+
+
+state 122
+
+   28 expression: expression . ARITH_ADD expression
+   28           | expression ARITH_ADD expression .
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 28 (expression)
+
+
+state 123
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   29           | expression ARITH_SUB expression .
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    ARITH_MUL  shift, and go to state 74
+    ARITH_DIV  shift, and go to state 75
+    ARITH_MOD  shift, and go to state 76
+
+    $default  reduce using rule 29 (expression)
+
+
+state 124
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   30           | expression ARITH_MUL expression .
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    $default  reduce using rule 30 (expression)
+
+
+state 125
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   31           | expression ARITH_DIV expression .
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    $default  reduce using rule 31 (expression)
+
+
+state 126
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   32           | expression ARITH_MOD expression .
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    $default  reduce using rule 32 (expression)
+
+
+state 127
+
+   10 form: OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 10 (form)
+
+
+state 128
+
+    7 form_list: form_list form .
+
+    $default  reduce using rule 7 (form_list)
+
+
+state 129
+
+   63 assignment_form: OPEN_BRACE assignment_list . CLOSE_BRACE
+   65 assignment_list: assignment_list . assignment
+
+    CLOSE_BRACE  shift, and go to state 149
+    ID           shift, and go to state 80
+
+    assignment  go to state 132
+
+
+state 130
+
+   67 assignment: ID ASSIGN . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 150
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 131
+
+   12 statement: LET assignment_form FOR . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 151
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 132
+
+   65 assignment_list: assignment_list assignment .
+
+    $default  reduce using rule 65 (assignment_list)
+
+
+state 133
+
+   13 statement: IF OPEN_PAREN expression . CLOSE_PAREN form ELSE form
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    CLOSE_PAREN        shift, and go to state 152
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 134
+
+   62 condition: DEFAULT . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 153
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 135
+
+   61 condition: CASE . OPEN_PAREN expression CLOSE_PAREN form
+
+    OPEN_PAREN  shift, and go to state 154
+
+
+state 136
+
+   14 statement: COND OPEN_BRACE condition_list . CLOSE_BRACE
+   59 condition_list: condition_list . condition
+
+    CLOSE_BRACE  shift, and go to state 155
+    DEFAULT      shift, and go to state 134
+    CASE         shift, and go to state 135
+
+    condition  go to state 156
+
+
+state 137
+
+   60 condition_list: condition .
+
+    $default  reduce using rule 60 (condition_list)
+
+
+state 138
+
+   15 statement: ERROR OPEN_PAREN expression . CLOSE_PAREN form
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+
+    CLOSE_PAREN        shift, and go to state 157
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 139
+
+   16 statement: REC OPEN_PAREN expression_list . CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+   17 expression_list: expression_list . COMMA expression
+
+    CLOSE_PAREN  shift, and go to state 158
+    COMMA        shift, and go to state 51
+
+
+state 140
+
+    5 function_definition: FUNCTION ID OPEN_PAREN CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 5 (function_definition)
+
+
+state 141
+
+   23 expression: LIST OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 23 (expression)
+
+
+state 142
+
+   24 expression: LIST OPEN_PAREN expression_list CLOSE_PAREN .
+
+    $default  reduce using rule 24 (expression)
+
+
+state 143
+
+   26 expression: RECUR OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 26 (expression)
+
+
+state 144
+
+   25 expression: RECUR OPEN_PAREN expression_list CLOSE_PAREN .
+
+    $default  reduce using rule 25 (expression)
+
+
+state 145
+
+   20 expression: ID OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 20 (expression)
+
+
+state 146
+
+   21 expression: ID OPEN_PAREN expression_list CLOSE_PAREN .
+
+    $default  reduce using rule 21 (expression)
+
+
+state 147
+
+   27 expression: ID OPEN_BRACKET expression CLOSE_BRACKET .
+
+    $default  reduce using rule 27 (expression)
+
+
+state 148
+
+    6 function_definition: FUNCTION ID OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list . CLOSE_BRACE
+    7 form_list: form_list . form
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 159
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 149
+
+   63 assignment_form: OPEN_BRACE assignment_list CLOSE_BRACE .
+
+    $default  reduce using rule 63 (assignment_form)
+
+
+state 150
+
+   67 assignment: ID ASSIGN form .
+
+    $default  reduce using rule 67 (assignment)
+
+
+state 151
+
+   12 statement: LET assignment_form FOR form .
+
+    $default  reduce using rule 12 (statement)
+
+
+state 152
+
+   13 statement: IF OPEN_PAREN expression CLOSE_PAREN . form ELSE form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 160
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 153
+
+   62 condition: DEFAULT form .
+
+    $default  reduce using rule 62 (condition)
+
+
+state 154
+
+   61 condition: CASE OPEN_PAREN . expression CLOSE_PAREN form
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression  go to state 161
+    literal     go to state 28
+
+
+state 155
+
+   14 statement: COND OPEN_BRACE condition_list CLOSE_BRACE .
+
+    $default  reduce using rule 14 (statement)
+
+
+state 156
+
+   59 condition_list: condition_list condition .
+
+    $default  reduce using rule 59 (condition_list)
+
+
+state 157
+
+   15 statement: ERROR OPEN_PAREN expression CLOSE_PAREN . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 162
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 158
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN . OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_BRACE  shift, and go to state 163
+
+
+state 159
+
+    6 function_definition: FUNCTION ID OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE .
+
+    $default  reduce using rule 6 (function_definition)
+
+
+state 160
+
+   13 statement: IF OPEN_PAREN expression CLOSE_PAREN form . ELSE form
+
+    ELSE  shift, and go to state 164
+
+
+state 161
+
+   28 expression: expression . ARITH_ADD expression
+   29           | expression . ARITH_SUB expression
+   30           | expression . ARITH_MUL expression
+   31           | expression . ARITH_DIV expression
+   32           | expression . ARITH_MOD expression
+   34           | expression . BOOLEAN_AND expression
+   35           | expression . BOOLEAN_OR expression
+   36           | expression . BOOLEAN_XOR expression
+   37           | expression . BOOLEAN_IMP expression
+   38           | expression . BOOLEAN_DIMP expression
+   39           | expression . BOOLEAN_EQ expression
+   40           | expression . BOOLEAN_NEQ expression
+   41           | expression . BOOLEAN_LT expression
+   42           | expression . BOOLEAN_GT expression
+   43           | expression . BOOLEAN_LTE expression
+   44           | expression . BOOLEAN_GTE expression
+   45           | expression . BOOLEAN_EQV expression
+   48           | expression . LIST_CONS expression
+   49           | expression . LIST_APPEND expression
+   50           | expression . LIST_UNION expression
+   51           | expression . LIST_INTERSECTION expression
+   52           | expression . LIST_COMPLEMENT expression
+   53           | expression . LIST_BICOMPLEMENT expression
+   54           | expression . LIST_MEMBER expression
+   55           | expression . LIST_SUBSET expression
+   61 condition: CASE OPEN_PAREN expression . CLOSE_PAREN form
+
+    CLOSE_PAREN        shift, and go to state 165
+    BOOLEAN_AND        shift, and go to state 52
+    BOOLEAN_OR         shift, and go to state 53
+    BOOLEAN_XOR        shift, and go to state 54
+    BOOLEAN_IMP        shift, and go to state 55
+    BOOLEAN_DIMP       shift, and go to state 56
+    BOOLEAN_EQ         shift, and go to state 57
+    BOOLEAN_NEQ        shift, and go to state 58
+    BOOLEAN_LT         shift, and go to state 59
+    BOOLEAN_GT         shift, and go to state 60
+    BOOLEAN_LTE        shift, and go to state 61
+    BOOLEAN_GTE        shift, and go to state 62
+    BOOLEAN_EQV        shift, and go to state 63
+    LIST_APPEND        shift, and go to state 64
+    LIST_CONS          shift, and go to state 65
+    LIST_UNION         shift, and go to state 66
+    LIST_INTERSECTION  shift, and go to state 67
+    LIST_COMPLEMENT    shift, and go to state 68
+    LIST_BICOMPLEMENT  shift, and go to state 69
+    LIST_MEMBER        shift, and go to state 70
+    LIST_SUBSET        shift, and go to state 71
+    ARITH_ADD          shift, and go to state 72
+    ARITH_SUB          shift, and go to state 73
+    ARITH_MUL          shift, and go to state 74
+    ARITH_DIV          shift, and go to state 75
+    ARITH_MOD          shift, and go to state 76
+
+
+state 162
+
+   15 statement: ERROR OPEN_PAREN expression CLOSE_PAREN form .
+
+    $default  reduce using rule 15 (statement)
+
+
+state 163
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE . form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form_list   go to state 166
+    form        go to state 78
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 164
+
+   13 statement: IF OPEN_PAREN expression CLOSE_PAREN form ELSE . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 167
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 165
+
+   61 condition: CASE OPEN_PAREN expression CLOSE_PAREN . form
+
+    OPEN_BRACE   shift, and go to state 29
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 168
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 166
+
+    7 form_list: form_list . form
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list . CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_BRACE   shift, and go to state 29
+    CLOSE_BRACE  shift, and go to state 169
+    OPEN_PAREN   shift, and go to state 12
+    LET          shift, and go to state 30
+    IF           shift, and go to state 31
+    COND         shift, and go to state 32
+    LIST         shift, and go to state 14
+    ERROR        shift, and go to state 33
+    REC          shift, and go to state 34
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    form        go to state 128
+    statement   go to state 36
+    expression  go to state 37
+    literal     go to state 28
+
+
+state 167
+
+   13 statement: IF OPEN_PAREN expression CLOSE_PAREN form ELSE form .
+
+    $default  reduce using rule 13 (statement)
+
+
+state 168
+
+   61 condition: CASE OPEN_PAREN expression CLOSE_PAREN form .
+
+    $default  reduce using rule 61 (condition)
+
+
+state 169
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE . ON OPEN_PAREN expression_list CLOSE_PAREN
+
+    ON  shift, and go to state 170
+
+
+state 170
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON . OPEN_PAREN expression_list CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 171
+
+
+state 171
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN . expression_list CLOSE_PAREN
+
+    OPEN_PAREN   shift, and go to state 12
+    LIST         shift, and go to state 14
+    RECUR        shift, and go to state 15
+    BOOLEAN_NOT  shift, and go to state 16
+    LIST_CAR     shift, and go to state 17
+    LIST_CDR     shift, and go to state 18
+    INTEGER      shift, and go to state 19
+    DOUBLE       shift, and go to state 20
+    STRING       shift, and go to state 21
+    SYMBOL       shift, and go to state 22
+    BOOLEAN      shift, and go to state 23
+    ID           shift, and go to state 24
+    CHARACTER    shift, and go to state 25
+
+    expression_list  go to state 172
+    expression       go to state 27
+    literal          go to state 28
+
+
+state 172
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list . CLOSE_PAREN
+   17 expression_list: expression_list . COMMA expression
+
+    CLOSE_PAREN  shift, and go to state 173
+    COMMA        shift, and go to state 51
+
+
+state 173
+
+   16 statement: REC OPEN_PAREN expression_list CLOSE_PAREN OPEN_BRACE form_list CLOSE_BRACE ON OPEN_PAREN expression_list CLOSE_PAREN .
+
+    $default  reduce using rule 16 (statement)

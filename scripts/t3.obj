@@ -1,0 +1,11 @@
+
+define l1 as list(1, 2, 3);
+define l2 as list(4, 5, 6);
+
+function main()
+{
+	echoln {
+		"Hello " + "dolly!";
+		l1 + l2;
+	};
+}

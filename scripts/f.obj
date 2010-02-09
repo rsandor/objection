@@ -1,0 +1,13 @@
+function fac(n)
+{
+	if (n <= 0)
+		0;
+	else
+		n * fac(n - 1);
+}
+
+function main()
+{
+	echoln(fac(20));
+}
+

@@ -1,0 +1,80 @@
+
+
+
+function main()
+{
+    echoln(apply(fac, 5));
+}
+
+function apply(func, param)
+{
+    func(param);
+}
+
+// Test of nested recs
+function nestit(n)
+{
+    rec (i)
+    {
+	if (i == 0)
+	{
+	    0;
+	}
+	else
+	{
+	    rec (c)
+	    {
+		if (c == 0)
+		{
+		    0;
+		}
+		else
+		{
+		    echo("Entry (", i, ", ", c, "): ");
+		    
+		    let
+		    {
+			x = getInteger();
+		    }
+		    for
+		    {
+			echo("You entered: ", x, "\n");
+			recur(c - 1);
+		    }
+		}
+	    } on (n)
+	    
+	    recur(i - 1);
+	}
+    } on (n)
+}
+
+// Computes factorials using old fashioned recursion
+function fac(n)
+{
+    // Check to make sure the parameter is valid
+    error ( !isInteger(n) || n < 1 )
+	echoln("Function 'fac' only accepts positive integers");
+    
+    if (n == 1)
+	1;
+    else
+	n * fac(n - 1);
+}
+
+// Computes factorials using tail recursion
+// and the handy dandy rec statement
+function rfac(n)
+{
+    // Check to make sure the parameter is valid
+    error ( !isInteger(n) || n < 1 )
+	echoln("Function 'fac' only accepts positive integers");
+    
+    rec (n, T)
+    {
+	if (n == 1)
+	    T;
+	else
+	    recur(n - 1, T * n);
+    } on (n, 1)
+}

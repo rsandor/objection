@@ -1,0 +1,6 @@
+
+function main()
+{
+	if (x == 2) 2 + 8; else 7 + 3;
+}
+

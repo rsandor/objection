@@ -1,0 +1,255 @@
+// Farhdane
+// A very simple text based adventure game by Ryan Sandor Richards
+//
+// Farhdane serves as an example of what can be done with objection,
+// it uses most of the pl's features in interesting ways. And shows off
+// some of its power when it comes to list handling.
+
+//
+// The main function, where all the magic begins
+//
+function main()
+{
+    //echoln(getExits(world[0]));
+    //displayRoom(world[0]);
+    
+    stats(makePlayer("Ryan", RACE_HUMAN));
+}
+
+// Action definitions
+define ACTIONS as list
+{
+    "quit"; 
+    "stats";
+};
+
+//
+// Output and display definitions
+//
+define DIVIDER	as "-------------------------------------------";
+
+//
+// Room definitions
+//
+define NOEXIT	as -1;
+define NORTH	as 0;
+define SOUTH	as 1;
+define EAST	as 2;
+define WEST	as 3;
+
+//
+// Race Definitions
+//
+define NO_RACE	    as -1;
+define RACE_ELF	    as	0;
+define RACE_HUMAN   as	1;
+define RACE_DWARF   as	2;
+
+define RACE_NAMES as list 
+{
+    "Elf";
+    "Human";
+    "Dwarf";
+};
+
+define RACE_TABLE as list
+{
+    list(RACE_ELF, RACE_NAMES[RACE_ELF], 5, 15);
+    list(RACE_HUMAN, RACE_NAMES[RACE_HUMAN], 10, 10);
+    list(RACE_DWARF, RACE_NAMES[RACE_DWARF], 15, 5);
+};
+
+
+
+define world as list 
+{
+    makeRoom(0, "Entry Way", 
+	"A dark and cool entry way to an underground passage.\nThe way back to to the surface has collapsed.", 
+	list(1, NOEXIT, NOEXIT, NOEXIT), list()
+	);
+
+    makeRoom(1, "A dark passage",
+	"The passage is dark and cool, it is hard to see exactly where one is going.",
+	list(NOEXIT, 0, NOEXIT, NOEXIT), list()
+	);
+};
+
+
+//
+// Creates a new player
+//
+function makePlayer(name, race)
+{
+    let
+    {
+	hp = hpByRaceLevel(race, 1);
+	mp = mpByRaceLevel(race, 1);
+	xpn = xpNextLevel(1);
+    }
+    for
+	list {
+	    name;   // Name 
+	    race;   // Race
+	    1;	    // Level
+	    0;	    // Current xp
+	    xpn;    // Xp needed for next level
+	    hp;	    // Max hp
+	    hp;	    // Current hp
+	    mp;	    // Max mp
+	    mp;	    // Current mp
+	    list(); // Items
+	    };
+}
+
+// Player accessors
+function playerName(player)	{ `player;	}
+function playerRace(player)	{ player[1];		    }
+function playerRaceName(player) { RACE_NAMES[player[1]];    }
+function playerLevel(player)	{ player[2];	}
+function playerXP(player)	{ player[3];	}
+function playerXPN(player)	{ player[4];	}
+function playerMHP(player)	{ player[5];	}
+function playerHP(player)	{ player[6];	}
+function playerMMP(player)	{ player[7];	}
+function playerMP(player)	{ player[8];	}
+function playerItems(player)	{ player[9];	}
+
+// Displays a player's stats
+function stats(player)
+{
+    echoln {
+	playerName(player) + " the level " + playerLevel(player) + " " + playerRaceName(player);
+	DIVIDER;
+	"HP: " + playerHP(player) + "/" + playerMHP(player);
+	"MP: " + playerMP(player) + "/" + playerMMP(player);	
+	"XP: " + playerXP(player) + " (" + playerXPN(player) + " to next level)";
+	DIVIDER;
+	
+	// Items go here later
+    };
+}
+
+// Determines max hp given a race and level
+function hpByRaceLevel(race, level)
+{
+    let raceMod = `~~RACE_TABLE[race]; for
+	level * rand(toInteger(raceMod/2), raceMod);
+}
+
+// Determines max mp given a race and level
+function mpByRaceLevel(race, level)
+{
+    let raceMod = `~~~RACE_TABLE[race]; for
+	level * rand(toInteger(raceMod/2), raceMod);
+}
+
+// Determins experience needed to attain the next level
+function xpNextLevel(level)
+{
+    toInteger((1000 * rand(level, level + 4) / 5));
+}
+
+//
+// Room functions
+//
+function getId(room)	    { `room;	}
+function getTitle(room)	    { room[1];	}
+function getDesc(room)	    { room[2];	}
+function getExits(room)	    { room[3];	}
+function getObjects(room)   { room[4];	}
+
+function noExit(exit)	    { exit > NOEXIT; }
+
+function dirName(dir)
+{
+    error( dir != NORTH || dir != SOUTH || dir != EAST || dir != WEST )
+	echoln("dirName(): Direction must be either north, south, east, or west!");
+	
+    cond
+    {
+	case (dir == NORTH)
+	    "north";
+	case (dir == SOUTH)
+	    "south";
+	case (dir == EAST)
+	    "east";
+	default
+	    "west";
+    }
+}
+
+function direction(room, dir)
+{
+    error( dir != NORTH || dir != SOUTH || dir != EAST || dir != WEST )
+	echoln("direction(): Direction must be either north, south, east, or west!");
+
+    let exits = getExits(room); for
+	exits[dir];
+}
+
+function makeRoom(id, t, d, exits, objects)
+{
+    error(  !isInteger(id) || !isString(t) || !isString(d) ||
+	    !isList(exits) || !isList(objects) )
+	echoln("makeRoom(): Invalid argument supplied!");
+    
+    list(id, t, d, exits, objects);
+}
+
+
+//
+// The prompt function
+//
+function prompt(player)
+{
+    echo(playerName(player) + "> ");
+    
+}
+
+
+//
+// Displays the room contents to the user
+//
+function displayRoom(room)
+{
+    echoln {
+	// Echo the title and the room description
+	getTitle(room);
+	getDesc(room);
+	
+	// A little divider action
+	DIVIDER;
+	
+	// The room exits
+	let {
+	    dirs = list("North", "South", "East", "West");
+	    exts = getExits(room);
+	}
+	for
+	    rec (E, D, S, F)
+	    {
+		if (isEmpty(E))
+		{
+		    if (F)
+			S;
+		    else
+			S + "NONE!";
+		}
+		else if (noExit(`E))
+		    recur(~E, ~D, (S + `D) + " ", true);
+		else
+		    recur(~E, ~D, S, F);
+	    } on( exts, dirs, "Exits: ", false)
+	    
+	// And a little more divider action
+	DIVIDER;
+	
+	// Later we will put the object for the room here
+    };
+}
+
+
+
+
+
+

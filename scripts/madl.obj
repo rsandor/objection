@@ -1,0 +1,12 @@
+
+function main()
+{
+	if (isEmpty(L))
+		0;
+	else
+	{
+		echo("Adding number to list: " + `L + "\n");
+		car(L) + addList(~L);
+	}
+}
+

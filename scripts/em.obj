@@ -1,0 +1,15 @@
+
+function main()
+{
+error(y == (x - 3) / 4)
+{
+	echoln("You just errored!");
+	echo("How do you feel about that? ");
+	let x = getLine(); for
+	{
+		echoln("Oh you feel " + x + "?\nTOO BAD, LOSER!");
+	}
+	echoln("Cya!");
+}
+}
+

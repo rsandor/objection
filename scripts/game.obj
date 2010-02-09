@@ -1,0 +1,110 @@
+
+define gameTitle as "\"A Small Adventure\"";
+define author as "Ryan Sandor Richards";
+define copyright as "2005";
+
+define races as list("human", "elf");
+define classes as list("fighter", "mage");
+
+
+// Creates a room given parameters
+function makeRoom(id, title, description, n, s, e, w)
+{
+    list(id, title, description, n, s, e, w);
+}
+
+// Returns a list containing the world!
+function makeWorld()
+{
+    makeRoom(
+	1, "Cellar", 
+	"A fairly small and damp cellar. Old empty wine bottles are all about, a light shines from a half opened door to the north", 
+	2, 0, 0, 0) #
+    makeRoom(
+	2, "Stairwell",
+	"The stairwell is lit by many oil lamps that hang from the walls. The stairway leads up to the north and down to the south",
+	3, 1, 0, 0) #
+    makeRoom(
+	3, "An old study",
+	"Rotting books lie all over the place, it seems like a storm has ripped through the room and no one finished the cleaning. A door leads to a stairwell to the south and another room to the east.",
+	0, 2, 4, 0) #
+    makeRoom(
+	4, "A dining room",
+	"This room is in very bad condition, and the only thing that gives its purpose away is the half destroyed dining table that lies in ruins in the middle of the floor. A door leads west.",
+	0, 0, 0, 3) # list();
+}
+
+
+// Basic Game functions
+function intro()
+{
+    echoln(gameTitle);
+    echo("By " + author + "\n");
+    echo("Copyright " + copyright + ", " + author + "\n");
+}
+
+function getName()
+{
+    echo("Please enter your name: ");
+    getString();
+}
+
+function printList(L)
+{
+    error (!isList(L))
+	echoln("printList(): argument must be a list");
+    
+    rec (CL)
+    {
+	if ( !isEmpty(CL) )
+	{ 
+	    echoln(`CL);
+	    recur(~CL);
+	}
+	else
+	    0;
+    } on (L)
+}
+
+function option(options, prompt)
+{
+    error (!isList(options))
+	echoln("option(): first parameter must be a list");
+    error (!isString(prompt))
+	echoln("option(): second parameter must ba a string");
+    
+    echo(prompt);
+    
+    rec(input)
+    {
+	if (input ? options)
+	    input;
+	else
+	{
+	    echoln("I am sorry, " + input + " is not an option!");
+	    echo(prompt);
+	    recur(getString());
+	}
+    } on (getString())
+}
+
+function getRace()
+{
+    echoln("The possible races are:");
+    printList(races);
+    option(races, "Please enter your chosen race: ");
+}
+
+function getClass()
+{
+    echoln("The possible classes are:");
+    printList(classes);
+    option(classes, "Please enter your chosen class: ");
+}
+
+
+function main()
+{
+    echoln(makeWorld());
+}
+

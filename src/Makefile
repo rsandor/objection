@@ -1,0 +1,52 @@
+# Objection Stage 2 Makefile
+# Written By Ryan Sandor Richards
+# Copyright 2005 Ryan Sandor Richards
+# All rights reserved
+
+OBJECTS = lex.yy.o parser.tab.o parse_node.o scalar.o interp.o \
+	  envhash.o builtin.o mlor.o
+
+CC = gcc
+EXEC = ../bin/stage2
+LIBRARIES = -lfl -lgc
+YACC = bison
+YACC_OPTIONS = -vd
+LEX = flex
+CFLAGS := -W -c -g $(CFLAGS)
+
+all : $(OBJECTS)
+	$(CC) -o $(EXEC) $(OBJECTS) $(LIBRARIES) 
+
+parse_node.o : parse_node.h parse_node.c
+	$(CC) $(CFLAGS) parse_node.c
+
+scalar.o : scalar.h scalar.c
+	$(CC) $(CFLAGS) scalar.c
+
+envhash.o : envhash.c envhash.h scalar.h
+	$(CC) $(CFLAGS) envhash.c
+
+interp.o : interp.c interp.h scalar.h envhash.h parse_node.h
+	$(CC) $(CFLAGS) interp.c
+
+builtin.o : builtin.h scalar.h builtin.c
+	$(CC) $(CFLAGS) builtin.c
+
+mlor.o : mlor.h mlor.c
+	$(CC) $(CFLAGS) mlor.c
+
+lex.yy.o: parser.tab.h scalar.h parse_node.h lex.yy.c
+	$(CC) $(CFLAGS) lex.yy.c
+
+parser.tab.o : parser.tab.h parser.tab.c
+	$(CC) $(CFLAGS) parser.tab.c
+
+lex.yy.c : lexer.l
+	$(LEX) lexer.l
+
+parser.tab.c parser.tab.h : parser.y
+	$(YACC) $(YACC_OPTIONS) parser.y
+
+clean:
+	rm $(OBJECTS) lex.yy.c parser.tab.h parser.tab.c
+

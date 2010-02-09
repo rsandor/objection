@@ -1,0 +1,63 @@
+
+
+function main()
+{
+    echoln( bubbleSort(list(5, 2, 3, 1, 0, 9, 23, 40)) );
+}
+
+function bubbleSort(L)
+{
+    error( !isList(L) )
+	echoln("bubbleSort(): argument must be a list");
+
+    let	len = length(L); for
+	rec (FL, j) {
+	    let {
+		TL = rec (CL, i) {
+			cond
+			{
+			    case (i == len - 1)
+				CL;
+			    case ( CL[i] > CL[i + 1] )
+				let 
+                                {
+				    x = CL[i];
+				    y = CL[i + 1];
+				} for recur( replace(replace(CL, i, y), i+1, x), i+1 );
+			    default
+				recur(CL, i+1);
+			}
+		    } on (FL, 0)
+	    }
+	    for
+	    {
+		if (j == len - 1)
+		    TL;
+		else
+		    recur(TL, j + 1);
+	    }
+	} on (L, 0)
+}
+
+function replace(List, index, item)
+{
+    error ( !isList(List) )
+	echoln("replace(): first argument must be a list");
+    error ( !isInteger(index) )
+	echoln("replace(): second argument must be an integer");
+    error ( index < 0 || index >= length(List) )
+	echoln("replace(): index out of bounds");
+    
+    rec (CL, count, NL)
+    {
+	cond
+	{
+	    case (isEmpty(CL))	    
+		NL;
+	    case (count == index)   
+		recur(~CL, count+1, NL @ item);
+	    default
+		recur(~CL, count+1, NL @ `CL);
+	}
+    } on (List, 0, list())
+}

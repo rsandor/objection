@@ -1,0 +1,248 @@
+
+// The objection "big test script"
+// tests many parts of the language
+// By Ryan Richards
+
+define commands as list("quit", "?", "game", "mergesort", "boolop", "arithop", "listop");
+
+define testlist as 
+    rec(i)
+    {
+	if (i == 0)
+	    list();
+	else
+	    rand(1, 2000) # recur(i - 1);
+    } on (150)
+
+function help()
+{
+    echoln("Objection test script command list:");
+    rec(i)
+    {
+	if (i >= length(commands))
+	    0;
+	else
+	{
+	    if (i % 5 == 0)
+		echoln(commands[i]);
+	    else
+		echo(commands[i] + " ");
+		
+	    recur(i + 1);
+	}
+    } on (0)
+}
+
+function option(options, prompt)
+{
+    echo(prompt);
+    
+    rec(i)
+    {
+	if (i ? options)
+	    i;
+	else
+	{
+	    echoln("I am sorry that is not an option!");
+	    echo(prompt);
+	    recur(getString());
+	}
+    } on (getString())
+}
+
+function game()
+{
+    rec(tries, number)
+    {
+	if (tries == 0)
+	{
+	    echoln("YOU LOSE!");
+	    
+	    if (option(list("y", "n"), "Would you like to try again (y/n)? ") == "y")
+		game();
+	    else
+		0;
+	}
+	else
+	{
+	    echo("I am thinking of a number from 1 to 20, what is it? ");
+	    if (getInteger() != number)
+	    {
+		echoln("Nope!");
+		recur(tries - 1, number);
+	    }
+	    else
+	    {
+		echoln("YOU WIN!");
+		if (option(list("y", "n"), "Would you like to try again (y/n)? ") == "y")
+		    game();
+		else
+		    0;
+	    }
+	}
+	
+    } on (3, rand(1, 20))
+}
+
+function boolop()
+{
+    echoln
+    {
+	"true && true    = " + toString(true && true);
+	"true && false   = " + toString(true && false);
+	"false && true   = " + toString(false && true);
+	"false && false  = " + toString(false && false);
+	
+	"true || true    = " + toString(true || true);
+	"true || false   = " + toString(true || false);
+	"false || true   = " + toString(false || true);
+	"false || false  = " + toString(false || false);
+	
+	"true xor true   = " + toString(true xor true);
+	"true xor false  = " + toString(true xor false);
+	"false xor true  = " + toString(false xor true);
+	"false xor false = " + toString(false xor false);
+	
+	"true -> true    = " + toString(true -> true);
+	"true -> false   = " + toString(true -> false);
+	"false -> true   = " + toString(false -> true);
+	"false -> false  = " + toString(false -> false);
+	
+	"true <-> true   = " + toString(true <-> true);
+	"true <-> false  = " + toString(true <-> false);
+	"false <-> true  = " + toString(false <-> true);
+	"false <-> false = " + toString(false <-> false);
+	
+	"! true          = " + toString(!true);
+	"! false         = " + toString(!false);
+	
+	"0 < 1           = " + toString(0 < 1);
+	"1 < 0           = " + toString(1 < 0);
+	
+	"0 > 1           = " + toString(0 > 1);
+	"1 > 0           = " + toString(1 > 0);
+	
+	"0 <= 1           = " + toString(0 <= 1);
+	"1 <= 0           = " + toString(1 <= 0);
+	"1 <= 1           = " + toString(1 <= 1);
+	
+	"0 >= 1           = " + toString(0 >= 1);
+	"1 >= 0           = " + toString(1 >= 0);
+	"1 >= 1           = " + toString(1 >= 1);
+	
+	"0 == 1           = " + toString(0 == 1);
+	"1 == 0           = " + toString(1 == 0);
+	"1 == 1           = " + toString(1 == 1);
+	
+	"0 eqv \"0\"      = " + toString(0 eqv "0");
+	"0 eqv \"1\"      = " + toString(0 eqv "1");
+    };
+}
+
+function arithop()
+{
+    echoln
+    {
+	"5 + 2 = " + toString(5 + 2);
+	"5 - 2 = " + toString(5 - 2);
+	"5 * 2 = " + toString(5 * 2);
+	"5 / 2 = " + toString(5 / 2);
+	"5 % 2 = " + toString(5 % 2);
+    };
+}
+
+
+
+function mergeSort(L)
+{
+    error ( !isList(L) )
+	echoln("mergeSort(): argument must be a list");
+
+    rec (CL)
+    {
+	if ( length(CL) <= 1 )
+	    CL;
+	else
+	{
+	    let parts = partition(CL); for
+		merge( recur(`parts), recur(`~parts) );
+	}
+    } on (L)
+}
+
+function partition(L)
+{
+    error ( !isList(L) )
+	echoln("partition(): argument must be a list");
+	
+    rec (CL, p1, p2, count, max)
+    {
+	cond
+	{
+	    case (isEmpty(CL))
+		p1 # p2 # list();
+	    case (count < (max / 2))
+		recur( ~CL, p1 @ `CL, p2, count + 1, max );
+	    default
+		recur( ~CL, p1, p2 @ `CL, count + 1, max );
+	}
+    } on (L, list(), list(), 0, length(L))
+}
+
+function merge(L1, L2)
+{
+    error ( !isList(L1) || !isList(L2) )
+	echoln("merge(): both arguments must be lists");
+    
+    rec (p1, p2, L)
+    {
+	cond
+	{
+	    case ( isEmpty(p1) && isEmpty(p2) )
+		L;
+		
+	    case ( isEmpty(p1) )
+		recur(p1, ~p2, L @ `p2);
+		
+	    case ( isEmpty(p2) )
+		recur(~p1, p2, L @ `p1);
+		
+	    default
+		if ( `p1 < `p2 )
+		    recur( ~p1, p2, L @ `p1 );
+		else
+		    recur( p1, ~p2, L @ `p2 );
+	}
+    } on (L1, L2, list())
+}
+
+
+function ms()
+{
+    echoln("List before:", testlist);
+    echoln("List after:", mergeSort(testlist));
+}
+
+
+function main()
+{
+    rec(input)
+    {
+	if (input == "quit")
+	     echoln("Thanks for using the objection test script!");
+	else
+	{
+	    cond
+	    {
+		case (input == "?")		help();
+		case (input == "game")		game();
+		case (input == "boolop")	boolop();
+		case (input == "arithop")	arithop();
+		case (input == "mergesort")	ms();
+	    }
+	    
+	    recur(option(commands, "objection-test (? for a list)> "));
+	}
+    } on (option(commands, "objection-test (? for a list)> "))
+}
+

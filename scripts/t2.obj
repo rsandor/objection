@@ -1,0 +1,62 @@
+
+
+function main()
+{
+    // Get the list of numbers add them and output the results
+    echoln( addList(inputList()) );
+} 
+
+// Simply allows the user to input a
+// list on non zero numbers.
+function inputList()
+{
+    echoln("Enter a list of numbers, zero to stop:");
+    rec (L)
+    {
+	echo("Current List: ", L, "\n");
+	echo("> ");
+	let n = getDouble(); for
+	    if (n eqv 0)
+		L;
+	    else
+		recur(L @ n);
+    } on (list())
+}
+
+function listOfNumbers(L)
+{
+    // Check to make sure they gave us a list
+    error ( !isList(L) || isEmpty(L) )
+	echoln("listOfNumbers(): supplied argument must be a non-empty list");
+    
+    // Check the list
+    rec (CL)
+    {
+	cond
+	{
+	    case ( isEmpty(CL) )
+		true;
+	    case ( isNumber(`CL) )
+		recur(~CL);
+	    default
+		false;
+	}
+    } on (L)
+}
+
+function addList(L)
+{
+    // Check to make sure we can operate with
+    // what they gave us.
+    error ( !isList(L) || isEmpty(L) || !listOfNumbers(L) )
+	echoln("add_list(): supplied argument must be a non-empty list of numbers");
+    
+    // Add the list using tail recursion
+    rec (CL, T)
+    {
+	if (isEmpty(CL))
+	    T;
+	else
+	    recur(~CL, T + `CL);
+    } on (L, 0)
+}

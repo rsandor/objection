@@ -1,0 +1,12 @@
+
+
+function main()
+{
+	let {
+		name = { echo("Please enter your name: "); getString(); }
+		age = { echo("Please enter your age: "); getInteger(); }
+	}
+	for
+		echoln("You are a stupid " + age + " year old bitch, " + name);
+}
+

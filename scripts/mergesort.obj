@@ -1,0 +1,55 @@
+
+function main() {
+	echoln {
+		"Before Merge Sort:";
+		biglist;
+		"After:";
+		mergeSort(biglist);
+		};
+}
+
+function mergeSort(L) {
+	error ( !isList(L) ) echoln("mergeSort(): argument must be a list");
+	rec (CL) {
+		if ( length(CL) <= 1 )
+	    CL;
+		else {
+			let parts = partition(CL); for
+			merge( recur(`parts), recur(`~parts) );
+		}
+  } on (L)
+}
+
+function partition(L) {
+	error ( !isList(L) ) echoln("partition(): argument must be a list");
+  rec (CL, p1, p2, count, max) {
+		cond {
+	    case (isEmpty(CL))
+				p1 # p2 # list();
+	    case (count < (max / 2))
+				recur( ~CL, p1 @ `CL, p2, count + 1, max );
+	    default
+				recur( ~CL, p1, p2 @ `CL, count + 1, max );
+		}
+  } on (L, list(), list(), 0, length(L))
+}
+
+function merge(L1, L2) {
+  error ( !isList(L1) || !isList(L2) ) echoln("merge(): both arguments must be lists");
+    
+  rec (p1, p2, L) {
+		cond {
+	    case ( isEmpty(p1) && isEmpty(p2) )
+				L;
+	    case ( isEmpty(p1) )
+				recur(p1, ~p2, L @ `p2);
+	    case ( isEmpty(p2) )
+				recur(~p1, p2, L @ `p1);
+	    default
+				if ( `p1 < `p2 )
+		    	recur( ~p1, p2, L @ `p1 );
+				else
+		    	recur( p1, ~p2, L @ `p2 );
+		}
+  } on (L1, L2, list())
+}

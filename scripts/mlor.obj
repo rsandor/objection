@@ -1,0 +1,9 @@
+function main()
+{
+	let {
+		n = toLong("2.5");
+		m = toLong("3.5"); } 
+	for
+		pow(m, n) + pow(n / m);
+}
+

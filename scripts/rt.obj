@@ -1,0 +1,19 @@
+function main()
+{
+	rec (i)
+	{
+		let rn = rand(1, 10); for
+		{
+			if (rn < 1 || rn > 10)
+				echoln("out of bounds");
+			else
+				echoln(rn);
+		}
+
+		if (i > 0)
+			recur(i - 1);
+		else
+			0;
+	} on (100)
+}
+
