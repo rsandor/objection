@@ -39,53 +39,48 @@ An Example Program, "Merge Sort" in Objection:
 			biglist;
 			"After:";
 			mergeSort(biglist);
-			};
+		};
 	}
 
 	function mergeSort(L) {
 		error ( !isList(L) ) echoln("mergeSort(): argument must be a list");
 		rec (CL) {
 			if ( length(CL) <= 1 )
-		    CL;
+				CL;
 			else {
-				let parts = partition(CL); for
-				merge( recur(`parts), recur(`~parts) );
+				let parts = partition(CL); for merge( recur(`parts), recur(`~parts) );
 			}
-	  } on (L)
+		} on (L)
 	}
 
 	function partition(L) {
 		error ( !isList(L) ) echoln("partition(): argument must be a list");
-	  rec (CL, p1, p2, count, max) {
+		rec (CL, p1, p2, count, max) {
 			cond {
-		    case (isEmpty(CL))
+				case (isEmpty(CL))
 					p1 # p2 # list();
-		    case (count < (max / 2))
+				case (count < (max / 2))
 					recur( ~CL, p1 @ `CL, p2, count + 1, max );
-		    default
+				default
 					recur( ~CL, p1, p2 @ `CL, count + 1, max );
 			}
-	  } on (L, list(), list(), 0, length(L))
+		} on (L, list(), list(), 0, length(L))
 	}
 
 	function merge(L1, L2) {
-	  error ( !isList(L1) || !isList(L2) ) echoln("merge(): both arguments must be lists");
-    
-	  rec (p1, p2, L) {
+		error ( !isList(L1) || !isList(L2) ) echoln("merge(): both arguments must be lists");
+		rec (p1, p2, L) {
 			cond {
-		    case ( isEmpty(p1) && isEmpty(p2) )
-					L;
-		    case ( isEmpty(p1) )
-					recur(p1, ~p2, L @ `p2);
-		    case ( isEmpty(p2) )
-					recur(~p1, p2, L @ `p1);
-		    default
+				case ( isEmpty(p1) && isEmpty(p2) ) L;
+				case ( isEmpty(p1) ) recur(p1, ~p2, L @ `p2);
+				case ( isEmpty(p2) ) recur(~p1, p2, L @ `p1);
+				default
 					if ( `p1 < `p2 )
-			    	recur( ~p1, p2, L @ `p1 );
+						recur( ~p1, p2, L @ `p1 );
 					else
-			    	recur( p1, ~p2, L @ `p2 );
+						recur( p1, ~p2, L @ `p2 );
 			}
-	  } on (L1, L2, list())
+		} on (L1, L2, list())
 	}
 
 The "rec" statement
@@ -101,26 +96,23 @@ The structure itself is very simple. First there is "declaration" portion,
 this consists of declaring the structure with the "rec" keyword followed
 by a list of arguments, like so:
 
-	rec (p1, p2, L)
+	rec (p1, p2, L) 
 
 Then comes the body. Blocks of expressions or statements are always surrounded
 by curly braces. here' the body of the rec:
-
+	
 	{
 		cond {
-    	case ( isEmpty(p1) && isEmpty(p2) )
-				L;
-	    case ( isEmpty(p1) )
-				recur(p1, ~p2, L @ `p2);
-	    case ( isEmpty(p2) )
-				recur(~p1, p2, L @ `p1);
-	    default
+			case ( isEmpty(p1) && isEmpty(p2) ) L;
+			case ( isEmpty(p1) ) recur(p1, ~p2, L @ `p2);
+			case ( isEmpty(p2) ) recur(~p1, p2, L @ `p1);
+			default
 				if ( `p1 < `p2 )
-		    	recur( ~p1, p2, L @ `p1 );
+					recur( ~p1, p2, L @ `p1 );
 				else
-		    	recur( p1, ~p2, L @ `p2 );
+					recur( p1, ~p2, L @ `p2 );
 		}
-	}
+	} 
 
 Note the inner condition, expression group (again with curly braces) and how
 single expressions require no such braces (delicious!). Recurring is done by
@@ -128,7 +120,7 @@ using the "recur" expression which takes arguments as if the rec were actually
 a fully fledged function. Finally comes the application phase of the rec where 
 you begin recurring on the function defined in the declaration and the body.
 This is done using the "on" keyword like so:
-
+	
 	on (L1, L2, list())
 
 And blammo! You've got inline tail-recursion with C-style syntax without 
