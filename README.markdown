@@ -3,7 +3,7 @@ Objection
 by Ryan Sandor Richards
 
 
-Introduction, "I OBJECT!"
+Introduction
 --------------------------------------------------------------------------------
 
 Objection was my first serious attempt at designing a programming language and
