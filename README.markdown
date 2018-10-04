@@ -140,7 +140,7 @@ compiling on multiple platforms I'd love to hear from you. The last I checked
 I was able to get it compiling on my mac and on the linux boxes back at
 school. So it should be ready to rock right out of the box (given HBGC).
 
-License and Legal Mumbo-jumbo (MIT License)
+License
 --------------------------------------------------------------------------------
 
 Copyright (c) 2005-2010 Ryan Sandor Richards
